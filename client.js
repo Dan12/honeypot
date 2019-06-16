@@ -8,13 +8,13 @@ function get_secs() {
 
 let timeout_secs = 5 * 60;
 
-let serverConnection = new WebSocket('wss://' + window.location.hostname + ':3000');
+let serverConnection = new WebSocket('wss://' + window.location.hostname + '');
 serverConnection.onmessage = (msg) => {
     console.log("server message");
     console.log(msg);
     let data = JSON.parse(msg.data);
     if ("id" in data) {
-        let url = "https://"+window.location.hostname +":3000/"+ data.id;
+        let url = "https://"+window.location.hostname +"/"+ data.id;
         key_elt.innerHTML = "Send data to <a target=\"_blank\" href=\"" + url + "\">" + url +" </a>";
         let connTime = get_secs();
         timeout_elt.innerHTML = "Closing connection in " + timeout_secs + " seconds";

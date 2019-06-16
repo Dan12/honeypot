@@ -1,12 +1,12 @@
-const https = require('https');
+const http = require('http');
 const fs = require('fs');
 const WebSocket = require('ws');
 const WebSocketServer = WebSocket.Server;
 
-const serverConfig = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem'),
-};
+// const serverConfig = {
+//     key: fs.readFileSync('key.pem'),
+//     cert: fs.readFileSync('cert.pem'),
+// };
 
 const hostname = '0.0.0.0';
 const port = 3000;
@@ -55,11 +55,11 @@ const handleRequest = function (request, response) {
     }
 };
 
-const httpsServer = https.createServer(serverConfig, handleRequest);
-httpsServer.listen(port, hostname);
+const httpServer = http.createServer(serverConfig, handleRequest);
+httpServer.listen(port, hostname);
 
 // Create a server for handling websocket calls
-const wss = new WebSocketServer({ server: httpsServer });
+const wss = new WebSocketServer({ server: httpServer });
 
 function generate_id() {
     function s4() {
