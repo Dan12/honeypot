@@ -1,12 +1,6 @@
-const http = require('http');
 const fs = require('fs');
 const WebSocket = require('ws');
 const WebSocketServer = WebSocket.Server;
-
-// const serverConfig = {
-//     key: fs.readFileSync('key.pem'),
-//     cert: fs.readFileSync('cert.pem'),
-// };
 
 const hostname = '0.0.0.0';
 const port = process.env.PORT || 3000;
@@ -55,7 +49,20 @@ const handleRequest = function (request, response) {
     }
 };
 
-const httpServer = http.createServer(handleRequest);
+let httpServer = undefined;
+// for localhost dev
+if (port == 3000) {
+    const serverConfig = {
+        key: fs.readFileSync('key.pem'),
+        cert: fs.readFileSync('cert.pem'),
+    };
+    const https = require('https');
+    httpServer = https.createServer(serverConfig, handleRequest);
+} else {
+    const http = require('http');
+    httpServer = http.createServer(handleRequest);
+}
+
 httpServer.listen(port, hostname);
 
 // Create a server for handling websocket calls
