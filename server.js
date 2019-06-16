@@ -55,7 +55,7 @@ const handleRequest = function (request, response) {
     }
 };
 
-const httpServer = http.createServer(serverConfig, handleRequest);
+const httpServer = http.createServer(handleRequest);
 httpServer.listen(port, hostname);
 
 // Create a server for handling websocket calls
