@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000;
 let honeypots = {};
 
 let timeout_secs = 5*60;
+let ping_secs = 20;
 
 // Create a server for the client html page
 const handleRequest = function (request, response) {
@@ -81,9 +82,13 @@ wss.on('connection', function (ws) {
     let id = generate_id();
     honeypots[id] = ws
     ws.send(JSON.stringify({id: id}));
+    let ping_interval = setInterval(() => {
+        ws.send(JSON.stringify({}));
+    }, 1000*ping_secs);
     setTimeout(() => {
         ws.close();
         console.log("closed connection");
+        clearInterval(ping_interval)
         delete honeypots[id];
     }, 1000*timeout_secs);
 });

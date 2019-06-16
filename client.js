@@ -33,6 +33,7 @@ serverConnection.onmessage = (msg) => {
 };
 serverConnection.onclose = (event) => {
     console.log("closed websocket");
+    location.reload();
 }
 function send(data) {
     serverConnection.send(JSON.stringify(data));
